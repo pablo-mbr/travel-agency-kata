@@ -3,6 +3,7 @@ run-name: CICD Taller 3
 on: [push]
 jobs:
   code-quality:
+    runs-on: ubuntu-latest
     steps:
       - name: Format check (google-java-format)
         run: mvn fmt:check
@@ -13,6 +14,7 @@ jobs:
       - name: Run tests
         run: mvn test
   build:
+    needs: code-quality
     runs-on: ubuntu-latest
 
     steps:
