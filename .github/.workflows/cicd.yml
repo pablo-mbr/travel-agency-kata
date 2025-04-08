@@ -1,12 +1,17 @@
 name: Java CI/CD
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+run-name: CICD Taller 3
+on: [push]
 jobs:
+  code-quality:
+    steps:
+      - name: Format check (google-java-format)
+        run: mvn fmt:check
+
+      - name: Lint (Checkstyle)
+        run: mvn checkstyle:check
+
+      - name: Run tests
+        run: mvn test
   build:
     runs-on: ubuntu-latest
 
@@ -18,15 +23,6 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-
-      - name: Format check (google-java-format)
-        run: mvn fmt:check
-
-      - name: Lint (Checkstyle)
-        run: mvn checkstyle:check
-
-      - name: Run tests
-        run: mvn test
 
       - name: Build Docker image
         run: docker build -t pablomaciasbr/taller3cicd:latest .
